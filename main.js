@@ -9,7 +9,7 @@ const sizes = {
 };
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
-  45,
+  75,
   sizes.width / sizes.height,
   0.1,
   100
@@ -26,7 +26,7 @@ const sceneBg = new THREE.TextureLoader().load(background);
 scene.background = sceneBg;
 
 const normalMaterial = new THREE.MeshNormalMaterial();
-const boxGeometry = new THREE.BoxGeometry(5,5,5);
+const boxGeometry = new THREE.BoxGeometry(5,5,5,10,10);
 const box = new THREE.Mesh(boxGeometry,normalMaterial);
 scene.add(box);
 const tick = function(){

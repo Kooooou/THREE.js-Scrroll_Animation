@@ -36,6 +36,16 @@ const torus = new THREE.Mesh(torusGoeometry,normalMaterial);
 torus.position.z = 10;
 scene.add(torus);
 
+let scrollPersent = 0;
+const lerp = function(x,y,a){
+  return (1 - a) * x + a * y;
+}
+const scale = function(start,end){
+  return (scrollPersent - start) / (end - start);
+}
+document.body.onscroll = function(){
+  scrollPersent = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100;
+}
 const animationScripts = [];
 animationScripts.push({
   start: 0,
@@ -43,20 +53,17 @@ animationScripts.push({
   function(){
     camera.lookAt(box.position);
     camera.position.z = 10
-    // box.position.z += 0.01;
+    box.position.z = lerp(-15,0,scale(0,40));
+    torus.position.z = lerp(10,-5,scale(0,40));
   }
 })
 const playScrollAnime = function(){
  animationScripts.forEach((animation)=>{
-   animation.function();
+ if(scrollPersent >= animation.start && scrollPersent < animation.end)
+  animation.function();
  })
 }
-let scrollPersent = 0;
-document.body.onscroll = function(){
-  scrollPersent = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100;
- console.log(scrollPersent);
-}
-playScrollAnime();
+
 const tick = function(){
   requestAnimationFrame(tick);
   playScrollAnime();

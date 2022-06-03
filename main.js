@@ -31,7 +31,7 @@ box.rotateX(1);
 box.rotateY(1);
 scene.add(box);
 
-const torusGoeometry = new THREE.TorusGeometry(8,1,16,64);
+const torusGoeometry = new THREE.TorusGeometry(6,2,16,64);
 const torus = new THREE.Mesh(torusGoeometry,normalMaterial);
 torus.position.z = 10;
 scene.add(torus);
@@ -54,12 +54,40 @@ animationScripts.push({
     camera.lookAt(box.position);
     camera.position.z = 10
     box.position.z = lerp(-15,0,scale(0,40));
-    torus.position.z = lerp(10,-5,scale(0,40));
+    torus.position.z = lerp(10,-15,scale(0,40));
+  }
+})
+animationScripts.push({
+  start: 40,
+  end: 60,
+  function(){
+    camera.lookAt(box.position);
+    camera.position.z = 10;
+    box.rotation.x = lerp(1,THREE.MathUtils.degToRad(180),scale(40,60));
+  }
+})
+animationScripts.push({
+  start: 60,
+  end: 80,
+  function(){
+    camera.lookAt(box.position);
+    camera.position.x = lerp(0,-10,scale(60,80));
+    camera.position.y = lerp(0,15,scale(60,80));
+    camera.position.z = lerp(10,25,scale(60,80));
+  }
+})
+animationScripts.push({
+  start: 80,
+  end: 100,
+  function(){
+    camera.lookAt(box.position);
+    box.rotation.x += 0.02;
+    box.rotation.y += 0.02;
   }
 })
 const playScrollAnime = function(){
  animationScripts.forEach((animation)=>{
- if(scrollPersent >= animation.start && scrollPersent < animation.end)
+ if(scrollPersent >= animation.start && scrollPersent <= animation.end)
   animation.function();
  })
 }

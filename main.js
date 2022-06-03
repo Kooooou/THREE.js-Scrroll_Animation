@@ -14,8 +14,6 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.set(0,0,20);
-camera.lookAt(scene.position);
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
@@ -28,15 +26,40 @@ scene.background = sceneBg;
 const normalMaterial = new THREE.MeshNormalMaterial();
 const boxGeometry = new THREE.BoxGeometry(5,5,5,10,10);
 const box = new THREE.Mesh(boxGeometry,normalMaterial);
+box.position.z = -15;
 box.rotateX(1);
 box.rotateY(1);
 scene.add(box);
 
-const torusGoeometry = new THREE.TorusGeometry(8,1,16,32);
+const torusGoeometry = new THREE.TorusGeometry(8,1,16,64);
 const torus = new THREE.Mesh(torusGoeometry,normalMaterial);
-scene.add(torus)
+torus.position.z = 10;
+scene.add(torus);
+
+const animationScripts = [];
+animationScripts.push({
+  start: 0,
+  end: 40,
+  function(){
+    camera.lookAt(box.position);
+    camera.position.z = 10
+    // box.position.z += 0.01;
+  }
+})
+const playScrollAnime = function(){
+ animationScripts.forEach((animation)=>{
+   animation.function();
+ })
+}
+let scrollPersent = 0;
+document.body.onscroll = function(){
+  scrollPersent = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100;
+ console.log(scrollPersent);
+}
+playScrollAnime();
 const tick = function(){
   requestAnimationFrame(tick);
+  playScrollAnime();
   renderer.render(scene, camera);
 }
 tick();

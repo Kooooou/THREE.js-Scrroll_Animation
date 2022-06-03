@@ -28,7 +28,13 @@ scene.background = sceneBg;
 const normalMaterial = new THREE.MeshNormalMaterial();
 const boxGeometry = new THREE.BoxGeometry(5,5,5,10,10);
 const box = new THREE.Mesh(boxGeometry,normalMaterial);
+box.rotateX(1);
+box.rotateY(1);
 scene.add(box);
+
+const torusGoeometry = new THREE.TorusGeometry(8,1,16,32);
+const torus = new THREE.Mesh(torusGoeometry,normalMaterial);
+scene.add(torus)
 const tick = function(){
   requestAnimationFrame(tick);
   renderer.render(scene, camera);
